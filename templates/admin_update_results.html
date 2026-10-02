@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Applicants - Placement Portal{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <h2>Applicants for {{ job.title }}</h2>
+    <p style="color: var(--text-secondary);">Company: <strong>{{ job.company }}</strong></p>
+</div>
+
+<div class="card">
+    {% if applications %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Email</th>
+                    <th>Roll Number</th>
+                    <th>CGPA</th>
+                    <th>Current Status</th>
+                    <th>Update Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app, student in applications %}
+                    <tr>
+                        <td><strong>{{ student.name }}</strong></td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.roll_number or 'N/A' }}</td>
+                        <td>{{ student.cgpa or 'N/A' }}</td>
+                        <td>
+                            <span class="btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; background: #e2e8f0; pointer-events: none;">
+                                {{ app.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <form action="{{ url_for('admin_update_results', job_id=job.id) }}" method="POST" style="display: flex; gap: 0.5rem;">
+                                <input type="hidden" name="application_id" value="{{ app.id }}">
+                                <select name="status" style="padding: 0.3rem; font-size: 0.85rem; border-radius: 6px; border: 1px solid var(--border);">
+                                    <option value="Pending" {% if app.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Shortlisted" {% if app.status == 'Shortlisted' %}selected{% endif %}>Shortlisted</option>
+                                    <option value="Accepted" {% if app.status == 'Accepted' %}selected{% endif %}>Accepted</option>
+                                    <option value="Rejected" {% if app.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">Save</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="color: var(--text-secondary); text-align: center;">No students have applied for this position yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

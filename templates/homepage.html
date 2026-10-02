@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Placement Portal{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 4rem 1rem;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary);">Campus Placement & Recruitment System</h1>
+    <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 2.5rem;">
+        Connecting students with top industry recruiters. Manage applications, track updates, and kickstart your career.
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center;">
+        <a href="{{ url_for('register') }}" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.8rem 2rem;">Get Started as Student</a>
+        <a href="{{ url_for('login') }}" class="btn" style="border: 2px solid var(--primary); color: var(--primary); font-size: 1.1rem; padding: 0.8rem 2rem;">Sign In</a>
+    </div>
+</div>
+
+<div class="grid grid-3" style="margin-top: 3rem;">
+    <div class="card" style="text-align: center;">
+        <h3>For Students</h3>
+        <p style="margin-top: 0.5rem; color: var(--text-secondary);">Build your profile, upload your resume, and apply to job openings with one click.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h3>For Staff</h3>
+        <p style="margin-top: 0.5rem; color: var(--text-secondary);">Manage company postings, review applications, and update selection statuses seamlessly.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h3>For Admins</h3>
+        <p style="margin-top: 0.5rem; color: var(--text-secondary);">Complete control over student accounts, placements, system logs, and user roles.</p>
+    </div>
+</div>
+{% endblock %}

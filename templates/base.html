@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Placement Portal{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('homepage') }}" class="logo">CPRS Portal</a>
+            <ul class="nav-links">
+                {% if session.get('user_id') %}
+                    {% if session.get('role') == 'student' %}
+                        <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url_for('profile') }}">My Profile</a></li>
+                    {% elif session.get('role') == 'staff' %}
+                        <li><a href="{{ url_for('staff_dashboard') }}">Staff Dashboard</a></li>
+                        <li><a href="{{ url_for('admin_create_placement') }}">Post Job</a></li>
+                        <li><a href="{{ url_for('admin_manage_placements') }}">Manage Jobs</a></li>
+                    {% elif session.get('role') == 'admin' %}
+                        <li><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+                        <li><a href="{{ url_for('admin_create_student') }}">Add Student</a></li>
+                        <li><a href="{{ url_for('admin_create_placement') }}">Post Job</a></li>
+                        <li><a href="{{ url_for('admin_manage_placements') }}">Manage Jobs</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('logout') }}" class="btn btn-danger" style="padding: 0.4rem 0.8rem;">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Student Login</a></li>
+                    <li><a href="{{ url_for('staff_login') }}">Staff Login</a></li>
+                    <li><a href="{{ url_for('admin_login') }}">Admin Login</a></li>
+                    <li><a href="{{ url_for('register') }}" class="btn btn-primary" style="color: white;">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Campus Placement & Recruitment System. All rights reserved.</p>
+    </footer>
+</body>
+</html>

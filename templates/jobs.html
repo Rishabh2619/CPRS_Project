@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Available Jobs{% endblock %}
+{% block content %}
+<h2 class="mb-4 text-center">🏢 Available Placements</h2>
+<div class="row">
+    {% for job in jobs %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="card-title text-primary">{{ job.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ job.company }}</h6>
+                <p class="card-text small">
+                    <strong>Location:</strong> {{ job.location }}<br>
+                    <strong>Salary:</strong> {{ job.salary }}<br>
+                    <strong>Min CGPA:</strong> {{ job.min_cgpa }}<br>
+                    <strong>Branches:</strong> {{ job.allowed_branches }}<br>
+                    <strong>Max Backlogs:</strong> {{ job.max_backlogs }}
+                </p>
+                <hr>
+                <p class="small text-secondary">{{ job.description }}</p>
+                <a href="{{ url_for('apply_job', job_id=job.id) }}" class="btn btn-success w-100 mt-auto">Apply Now</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

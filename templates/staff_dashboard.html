@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Staff Dashboard - Placement Portal{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <div>
+        <h2>Staff Dashboard</h2>
+        <p style="color: var(--text-secondary);">Manage active job drives and applicant statuses.</p>
+    </div>
+    <a href="{{ url_for('admin_create_placement') }}" class="btn btn-primary">+ Post New Job</a>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1.5rem;">Active Job Listings</h3>
+    {% if jobs %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Job Title</th>
+                    <th>Location</th>
+                    <th>Salary</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                    <tr>
+                        <td><strong>{{ job.company }}</strong></td>
+                        <td>{{ job.title }}</td>
+                        <td>{{ job.location or 'N/A' }}</td>
+                        <td>{{ job.salary or 'N/A' }}</td>
+                        <td>
+                            <a href="{{ url_for('admin_update_results', job_id=job.id) }}" class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;">View Applicants</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="color: var(--text-secondary); text-align: center;">No placement drives created yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

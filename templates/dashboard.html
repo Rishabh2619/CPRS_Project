@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - Placement Portal{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <h2>Welcome back, {{ user.name }}!</h2>
+    <p style="color: var(--text-secondary);">Browse available job openings and check the status of your applications.</p>
+</div>
+
+<div class="grid grid-3" style="margin-bottom: 2.5rem;">
+    <div class="card" style="margin-bottom: 0;">
+        <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem;">Roll Number</h4>
+        <p style="font-size: 1.2rem; font-weight: bold;">{{ user.roll_number or 'Not provided' }}</p>
+    </div>
+    <div class="card" style="margin-bottom: 0;">
+        <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem;">Branch</h4>
+        <p style="font-size: 1.2rem; font-weight: bold;">{{ user.branch or 'Not provided' }}</p>
+    </div>
+    <div class="card" style="margin-bottom: 0;">
+        <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem;">CGPA</h4>
+        <p style="font-size: 1.2rem; font-weight: bold;">{{ user.cgpa or 'N/A' }}</p>
+    </div>
+</div>
+
+<h3 style="margin-bottom: 1.5rem;">Available Openings</h3>
+
+{% if jobs %}
+    {% for job in jobs %}
+        <div class="job-card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <div class="job-title">{{ job.title }}</div>
+                    <div class="company-name">{{ job.company }} • {{ job.location }}</div>
+                </div>
+                <span class="btn" style="background: #e0e7ff; color: var(--primary); pointer-events: none;">
+                    {{ job.salary or 'Undisclosed' }}
+                </span>
+            </div>
+            
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">{{ job.description }}</p>
+            
+            {% if job.requirements %}
+                <p style="font-size: 0.9rem; margin-bottom: 1rem;">
+                    <strong>Requirements:</strong> {{ job.requirements }}
+                </p>
+            {% endif %}
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                <span style="font-size: 0.85rem; color: var(--text-secondary);">
+                    Posted: {{ job.posted_date.strftime('%Y-%m-%d') if job.posted_date else 'Recently' }}
+                </span>
+                
+                {% if job.id in my_apps %}
+                    <span class="btn btn-success" style="cursor: default;">
+                        Applied (Status: {{ my_apps[job.id] }})
+                    </span>
+                {% else %}
+                    <a href="{{ url_for('apply_job', job_id=job.id) }}" class="btn btn-primary">Apply Now</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="card" style="text-align: center; padding: 3rem;">
+        <p style="color: var(--text-secondary);">No active job listings found at the moment.</p>
+    </div>
+{% endif %}
+{% endblock %}

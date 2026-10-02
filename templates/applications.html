@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Placement Results{% endblock %}
+{% block content %}
+<h2>My Applications & Results</h2>
+<table style="width:100%; background:#161616; border-radius:20px;">
+    <thead>
+        <tr style="background:#222;">
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for app in applications %}
+        <tr>
+            <td>{{ app.title }}</td>
+            <td>{{ app.company }}</td>
+            <td><strong>{{ app.status }}</strong></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="form-container" style="max-width: 700px;">
+    <h2 style="margin-bottom: 1.5rem; text-align: center;">Manage Profile</h2>
+    
+    <form action="{{ url_for('profile') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" value="{{ user.name }}" disabled style="background: #e2e8f0; cursor: not-allowed;">
+        </div>
+
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" value="{{ user.email }}" disabled style="background: #e2e8f0; cursor: not-allowed;">
+        </div>
+
+        <div class="grid grid-2">
+            <div class="form-group">
+                <label for="branch">Branch</label>
+                <input type="text" id="branch" name="branch" value="{{ user.branch or '' }}" placeholder="CSE, IT, ECE...">
+            </div>
+            <div class="form-group">
+                <label for="cgpa">CGPA</label>
+                <input type="number" step="0.01" id="cgpa" name="cgpa" value="{{ user.cgpa or '' }}" placeholder="8.5">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="skills">Key Skills (comma separated)</label>
+            <textarea id="skills" name="skills" rows="3" placeholder="Python, Flask, JavaScript, SQL">{{ user.skills or '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="resume">Upload Resume (PDF/Doc)</label>
+            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+            {% if user.resume_path %}
+                <p style="font-size: 0.85rem; color: var(--success); margin-top: 0.5rem;">
+                    Current Resume: {{ user.resume_path }}
+                </p>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Save Changes</button>
+    </form>
+</div>
+{% endblock %}
